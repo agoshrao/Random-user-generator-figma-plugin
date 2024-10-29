@@ -1,0 +1,14 @@
+{
+  "name": "Random user generator",
+  "id": "1432671103710797655",
+  "api": "1.0.0",
+  "main": "code.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "documentAccess": "dynamic-page",
+  "editorType": ["figma"],
+  "ui": "ui.html",
+  "networkAccess": {
+    "allowedDomains": ["https://randomuser.me", "https://fonts.googleapis.com", "https://fonts.gstatic.com", "https://cors-anywhere.herokuapp.com"]
+  }
+}
