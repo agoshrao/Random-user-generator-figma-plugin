@@ -1,17 +1,19 @@
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
-const cors = require('cors'); // Import CORS middleware
+const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Use the PORT environment variable or default to 3000
 
 app.use(cors()); // Enable CORS for all routes
 
-// GitHub repository details and folder structure
-const GITHUB_USERNAME = 'agoshrao';
-const GITHUB_REPOSITORY = 'Random-user-generator-figma-plugin';
-const GITHUB_BRANCH = 'main';
-const GITHUB_BASE_FOLDER = 'github-image-api/user_photos';
+// GitHub repository details from environment variables
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'agoshrao';
+const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY || 'Random-user-generator-figma-plugin';
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+const GITHUB_BASE_FOLDER = process.env.GITHUB_BASE_FOLDER || 'github-image-api/user_photos';
+
 const folders = {
   gentlemen: ['0.jpg', '1.jpg', '2.jpg'],
   ladies: ['0.jpg', '1.jpg', '2.jpg'],
