@@ -4,6 +4,61 @@
     <meta charset="UTF-8">
     <title>Random User Generator</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        /* Switch styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #B3B3B3;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2962FF;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(14px);
+        }
+
+        .option-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body style="background-color: #121212; color: #FFFFFF; font-family: Arial, sans-serif; padding: 20px; margin: 0;">
 
@@ -47,17 +102,76 @@
     </div>
 
     <h3 style="margin-bottom: 10px; text-align: left;">Select Information to Display</h3>
-    <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="name" checked> Name</label>
-    <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="login" checked> Login</label>
-    <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="location" checked> Location</label>
-    <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="email" checked> Email</label>
-    <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="phone" checked> Phone</label>
-    <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="cell" checked> Cellphone</label>
-    <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="dob" checked> Date of Birth</label>
-    <label style="margin-bottom: 20px; display: block;"><input type="checkbox" id="include-picture" checked> Include Picture</label>
 
+    <!-- Switch controls for each information field -->
+    <div class="option-label">Name
+        <label class="switch">
+            <input type="checkbox" id="name" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="option-label">Username
+        <label class="switch">
+            <input type="checkbox" id="login" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="option-label">Location
+        <label class="switch">
+            <input type="checkbox" id="location" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="option-label">Email
+        <label class="switch">
+            <input type="checkbox" id="email" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="option-label">Phone
+        <label class="switch">
+            <input type="checkbox" id="phone" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="option-label">Cellphone
+        <label class="switch">
+            <input type="checkbox" id="cell" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="option-label">Date of Birth
+        <label class="switch">
+            <input type="checkbox" id="dob" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="option-label">Registered
+        <label class="switch">
+            <input type="checkbox" id="registered" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="option-label">ID
+        <label class="switch">
+            <input type="checkbox" id="id" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="option-label">Picture
+        <label class="switch">
+            <input type="checkbox" id="picture" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <!-- <div class="option-label">Nationality
+        <label class="switch">
+            <input type="checkbox" id="nat" checked>
+            <span class="slider"></span>
+        </label>
+    </div> -->
 
-    <button id="generate-user" style="background-color: #2962FF; color: #FFFFFF; border: none; padding: 10px 16px; font-size: 16px; border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease-in-out;">
+    <button id="generate-user" style="background-color: #2962FF; color: #FFFFFF; border: none; padding: 10px 16px; font-size: 16px; border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease-in-out; margin-top: 20px;">
         Generate
     </button>
 
@@ -65,7 +179,7 @@
         document.getElementById('generate-user').onclick = () => {
             const gender = document.getElementById('gender').value;
             const nationality = document.getElementById('nationality').value;
-            const includePicture = document.getElementById('include-picture').checked;
+            const includePicture = document.getElementById('picture').checked;  // Updated to reference the correct checkbox
             const selectedFields = {
                 name: document.getElementById('name').checked,
                 login: document.getElementById('login').checked,
@@ -74,6 +188,10 @@
                 phone: document.getElementById('phone').checked,
                 cell: document.getElementById('cell').checked,
                 dob: document.getElementById('dob').checked,
+                registered: document.getElementById('registered').checked,
+                id: document.getElementById('id').checked,
+                picture: document.getElementById('picture').checked,
+                // nat: document.getElementById('nat').checked,
             };
             parent.postMessage({ pluginMessage: { type: 'generateUser', gender, nationality, includePicture, selectedFields } }, '*');
         }
@@ -85,12 +203,6 @@
         });
         button.addEventListener('mouseleave', function() {
             this.style.backgroundColor = '#2962FF';
-        });
-        button.addEventListener('mousedown', function() {
-            this.style.backgroundColor = '#1C54B2';
-        });
-        button.addEventListener('mouseup', function() {
-            this.style.backgroundColor = '#0039CB';
         });
     </script>
 </body>

@@ -1,4 +1,4 @@
-figma.showUI(__html__, { width: 300, height: 600 });
+figma.showUI(__html__, { width: 300, height: 700 });
 
 figma.ui.onmessage = async (msg) => {
   if (msg.type === 'generateUser') {
@@ -38,13 +38,17 @@ figma.ui.onmessage = async (msg) => {
       // Display selected user details
       let userInfo = "";
       if (selectedFields.name) {
-        userInfo += `Name: ${user.name.first} ${user.name.last}\n`;
+        userInfo += `Name: ${user.name.title} ${user.name.first} ${user.name.last}\n`;
       }
       if (selectedFields.login) {
-        userInfo += `Login: ${user.login.username}\n`;
+        userInfo += `Username: ${user.login.username}\n`;
       }
       if (selectedFields.location) {
-        userInfo += `Location: ${user.location.city}, ${user.location.country}\n`;
+        const street = `${user.location.street.number} ${user.location.street.name}`;
+        userInfo += `Location: ${street}, ${user.location.city}, Postcode: ${user.location.postcode}\n`;
+      }
+      if (selectedFields.location) {
+        userInfo += `Country: ${user.location.country}\n`;
       }
       if (selectedFields.email) {
         userInfo += `Email: ${user.email}\n`;
@@ -56,8 +60,19 @@ figma.ui.onmessage = async (msg) => {
         userInfo += `Cellphone: ${user.cell || 'N/A'}\n`;
       }
       if (selectedFields.dob) {
-        userInfo += `Date of Birth: ${user.dob ? new Date(user.dob.date).toLocaleDateString() : 'N/A'}\n`;
+        const dobDate = new Date(user.dob.date).toLocaleDateString();
+        userInfo += `Date of Birth: ${dobDate}\n`;
+        userInfo += `Age: ${user.dob.age}\n`;
       }
+      if (selectedFields.registered) {
+        userInfo += `Registered: ${new Date(user.registered.date).toLocaleDateString()}\n`;
+    }
+    if (selectedFields.id) {
+        userInfo += `ID: ${user.id.value || 'N/A'}\n`;
+    }
+    // if (selectedFields.nat) {
+    //     userInfo += `Nationality: ${user.nat}\n`;
+    // }    
 
       // Create a text node for user information
       const textNode = figma.createText();
