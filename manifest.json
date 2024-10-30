@@ -9,6 +9,6 @@
   "editorType": ["figma"],
   "ui": "ui.html",
   "networkAccess": {
-    "allowedDomains": ["https://randomuser.me", "https://fonts.googleapis.com", "https://fonts.gstatic.com", "https://cors-anywhere.herokuapp.com"]
+    "allowedDomains": ["https://randomuser.me", "https://fonts.googleapis.com", "https://fonts.gstatic.com", "https://random-user-generator-figma-plugin.onrender.com"]
   }
 }

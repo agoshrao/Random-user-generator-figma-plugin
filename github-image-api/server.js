@@ -12,24 +12,33 @@ const GITHUB_USERNAME = 'agoshrao';
 const GITHUB_REPOSITORY = 'Random-user-generator-figma-plugin';
 const GITHUB_BRANCH = 'main';
 const GITHUB_BASE_FOLDER = 'github-image-api/user_photos';
+
+// Folder structure with sample images for each gender
 const folders = {
-  gentlemen: ['0.jpg', '1.jpg', '2.jpg'],
+  gentlemen: ['0.jpg', '1.jpg', '2.jpg'], // Add or update these with actual image names
   ladies: ['0.jpg', '1.jpg', '2.jpg'],
-  lego: ['0.jpg', '1.jpg', '2.jpg']
 };
 
-// Root route for base URL
-app.get('/', (req, res) => {
-  res.send('Welcome to the Random User Image API. Use /random-image to fetch an image.');
-});
-
-// Random image route
+// Route to fetch an image based on gender
 app.get('/random-image', async (req, res) => {
-  const folderNames = Object.keys(folders);
-  const randomFolder = folderNames[Math.floor(Math.random() * folderNames.length)];
-  const images = folders[randomFolder];
+  const gender = req.query.gender;
+
+  // Determine folder based on gender parameter
+  let folder;
+  if (gender === 'male') {
+    folder = 'gentlemen';
+  } else if (gender === 'female') {
+    folder = 'ladies';
+  } else {
+    // If gender is 'random' or unspecified, choose randomly between gentlemen and ladies
+    const folderNames = ['gentlemen', 'ladies'];
+    folder = folderNames[Math.floor(Math.random() * folderNames.length)];
+  }
+
+  // Select a random image from the chosen folder
+  const images = folders[folder];
   const randomImage = images[Math.floor(Math.random() * images.length)];
-  const imageUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPOSITORY}/${GITHUB_BRANCH}/${GITHUB_BASE_FOLDER}/${randomFolder}/${randomImage}`;
+  const imageUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPOSITORY}/${GITHUB_BRANCH}/${GITHUB_BASE_FOLDER}/${folder}/${randomImage}`;
 
   try {
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
