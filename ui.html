@@ -53,7 +53,8 @@
     <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="email" checked> Email</label>
     <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="phone" checked> Phone</label>
     <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="cell" checked> Cellphone</label>
-    <label style="margin-bottom: 20px; display: block;"><input type="checkbox" id="dob" checked> Date of Birth</label>
+    <label style="margin-bottom: 4px; display: block;"><input type="checkbox" id="dob" checked> Date of Birth</label>
+    <label style="margin-bottom: 20px; display: block;"><input type="checkbox" id="include-picture" checked> Include Picture</label>
 
 
     <button id="generate-user" style="background-color: #2962FF; color: #FFFFFF; border: none; padding: 10px 16px; font-size: 16px; border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease-in-out;">
@@ -64,6 +65,7 @@
         document.getElementById('generate-user').onclick = () => {
             const gender = document.getElementById('gender').value;
             const nationality = document.getElementById('nationality').value;
+            const includePicture = document.getElementById('include-picture').checked;
             const selectedFields = {
                 name: document.getElementById('name').checked,
                 login: document.getElementById('login').checked,
@@ -73,7 +75,7 @@
                 cell: document.getElementById('cell').checked,
                 dob: document.getElementById('dob').checked,
             };
-            parent.postMessage({ pluginMessage: { type: 'generateUser', gender, nationality, selectedFields } }, '*');
+            parent.postMessage({ pluginMessage: { type: 'generateUser', gender, nationality, includePicture, selectedFields } }, '*');
         }
 
         // Button hover effect
