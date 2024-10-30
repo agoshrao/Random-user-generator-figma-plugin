@@ -39,7 +39,9 @@ const folders = {
     '80.jpg', '81.jpg', '82.jpg', '83.jpg', '84.jpg', '85.jpg', '86.jpg', '87.jpg', '88.jpg', '89.jpg',
     '90.jpg', '91.jpg', '92.jpg', '93.jpg', '94.jpg'
   ],
-  
+  lego: [
+    '0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg'
+  ],
 };
 
 // Route to fetch an image based on gender
@@ -52,9 +54,11 @@ app.get('/random-image', async (req, res) => {
     folder = 'male';
   } else if (gender === 'female') {
     folder = 'female';
+  } else if (gender === 'lego') {
+    folder = 'lego';
   } else {
-    // If gender is 'random' or unspecified, choose randomly between male and female
-    const folderNames = ['male', 'female'];
+    // If gender is 'random' or unspecified, choose randomly between male, female, or lego
+    const folderNames = ['male', 'female', 'lego'];
     folder = folderNames[Math.floor(Math.random() * folderNames.length)];
   }
 

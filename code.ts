@@ -5,7 +5,8 @@ figma.ui.onmessage = async (msg) => {
     // Randomly select gender if 'random' is chosen
     let gender = msg.gender;
     if (gender === 'random') {
-      gender = Math.random() < 0.5 ? 'male' : 'female';
+      const randomChoice = Math.floor(Math.random() * 3);
+      gender = randomChoice === 0 ? 'male' : randomChoice === 1 ? 'female' : 'lego';
     }
 
     const nationality = msg.nationality ? `&nat=${msg.nationality}` : '';
