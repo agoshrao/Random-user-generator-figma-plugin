@@ -1,3 +1,4 @@
+require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -7,17 +8,14 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors()); // Enable CORS for all routes
 
-// GitHub repository details and folder structure
-const GITHUB_USERNAME = 'agoshrao';
-const GITHUB_REPOSITORY = 'Random-user-generator-figma-plugin';
-const GITHUB_BRANCH = 'main';
-const GITHUB_BASE_FOLDER = 'github-image-api/user_photos';
+// GitHub repository details from environment variables
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME;
+const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY;
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH;
+const GITHUB_BASE_FOLDER = process.env.GITHUB_BASE_FOLDER;
 
-// Folder structure with sample images for each gender
-const folders = {
-  gentlemen: ['0.jpg', '1.jpg', '2.jpg'], // Add or update these with actual image names
-  ladies: ['0.jpg', '1.jpg', '2.jpg'],
-};
+// Base URL for GitHub API
+const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPOSITORY}/contents/${GITHUB_BASE_FOLDER}`;
 
 // Route to fetch an image based on gender
 app.get('/random-image', async (req, res) => {
@@ -35,15 +33,19 @@ app.get('/random-image', async (req, res) => {
     folder = folderNames[Math.floor(Math.random() * folderNames.length)];
   }
 
-  // Select a random image from the chosen folder
-  const images = folders[folder];
-  const randomImage = images[Math.floor(Math.random() * images.length)];
-  const imageUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPOSITORY}/${GITHUB_BRANCH}/${GITHUB_BASE_FOLDER}/${folder}/${randomImage}`;
-
   try {
-    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+    // Fetch the list of images from the specified folder
+    const response = await axios.get(`${GITHUB_API_URL}/${folder}`);
+    const images = response.data.map(file => file.name); // Extract image names
+
+    // Select a random image from the chosen folder
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    const imageUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPOSITORY}/${GITHUB_BRANCH}/${GITHUB_BASE_FOLDER}/${folder}/${randomImage}`;
+
+    // Send the image back
+    const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
     res.setHeader('Content-Type', 'image/jpeg');
-    res.send(response.data);
+    res.send(imageResponse.data);
   } catch (error) {
     console.error("Error fetching image from GitHub:", error.message);
     res.status(404).send('Image not found');
