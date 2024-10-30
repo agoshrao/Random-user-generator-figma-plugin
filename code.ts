@@ -2,10 +2,15 @@ figma.showUI(__html__, { width: 300, height: 600 });
 
 figma.ui.onmessage = async (msg) => {
   if (msg.type === 'generateUser') {
-    const gender = msg.gender === 'random' ? '' : `&gender=${msg.gender}`;
+    // Randomly select gender if 'random' is chosen
+    let gender = msg.gender;
+    if (gender === 'random') {
+      gender = Math.random() < 0.5 ? 'male' : 'female'; // Randomly assign male or female
+    }
+
     const nationality = msg.nationality ? `&nat=${msg.nationality}` : '';
-    const userInfoUrl = `https://randomuser.me/api/?results=1${gender}${nationality}`;
-    const imageUrl = `https://random-user-generator-figma-plugin.onrender.com/random-image?gender=${msg.gender}`;
+    const userInfoUrl = `https://randomuser.me/api/?results=1&gender=${gender}${nationality}`;
+    const imageUrl = `https://random-user-generator-figma-plugin.onrender.com/random-image?gender=${gender}`;
 
     try {
       // Fetch user info from Random User API
