@@ -164,12 +164,22 @@
             <span class="slider"></span>
         </label>
     </div>
-    <!-- <div class="option-label">Nationality
+    
+    <!-- New Switch for Age -->
+    <div class="option-label">Age
         <label class="switch">
-            <input type="checkbox" id="nat" checked>
+            <input type="checkbox" id="age" checked>
             <span class="slider"></span>
         </label>
-    </div> -->
+    </div>
+
+    <!-- New Switch for Country -->
+    <div class="option-label">Country
+        <label class="switch">
+            <input type="checkbox" id="country" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
 
     <button id="generate-user" style="background-color: #2962FF; color: #FFFFFF; border: none; padding: 10px 16px; font-size: 16px; border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease-in-out; margin-top: 20px;">
         Generate
@@ -179,7 +189,7 @@
         document.getElementById('generate-user').onclick = () => {
             const gender = document.getElementById('gender').value;
             const nationality = document.getElementById('nationality').value;
-            const includePicture = document.getElementById('picture').checked;  // Updated to reference the correct checkbox
+            const includePicture = document.getElementById('picture').checked;
             const selectedFields = {
                 name: document.getElementById('name').checked,
                 login: document.getElementById('login').checked,
@@ -191,19 +201,20 @@
                 registered: document.getElementById('registered').checked,
                 id: document.getElementById('id').checked,
                 picture: document.getElementById('picture').checked,
-                // nat: document.getElementById('nat').checked,
+                age: document.getElementById('age').checked,
+                country: document.getElementById('country').checked
             };
             parent.postMessage({ pluginMessage: { type: 'generateUser', gender, nationality, includePicture, selectedFields } }, '*');
         }
-
+    
         // Button hover effect
         const button = document.getElementById('generate-user');
         button.addEventListener('mouseenter', function() {
-            this.style.backgroundColor = '#0039CB';
+            this.style.backgroundColor = '#003DA5'; // Darker blue on hover
         });
         button.addEventListener('mouseleave', function() {
-            this.style.backgroundColor = '#2962FF';
+            this.style.backgroundColor = '#2962FF'; // Original blue when not hovering
         });
-    </script>
+    </script>    
 </body>
 </html>

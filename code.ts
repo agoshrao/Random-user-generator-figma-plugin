@@ -31,8 +31,9 @@ figma.ui.onmessage = async (msg) => {
         // Create a rectangle for the image and set the image as a fill
         imageRect = figma.createRectangle();
         imageRect.resize(150, 150);
+        imageRect.cornerRadius = 8;
         imageRect.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: image.hash }];
-        figma.currentPage.appendChild(imageRect);
+        figma.currentPage.appendChild(imageRect);        
       }
 
       // Display selected user details
@@ -47,7 +48,7 @@ figma.ui.onmessage = async (msg) => {
         const street = `${user.location.street.number} ${user.location.street.name}`;
         userInfo += `Location: ${street}, ${user.location.city}, Postcode: ${user.location.postcode}\n`;
       }
-      if (selectedFields.location) {
+      if (selectedFields.country) {
         userInfo += `Country: ${user.location.country}\n`;
       }
       if (selectedFields.email) {
@@ -62,17 +63,20 @@ figma.ui.onmessage = async (msg) => {
       if (selectedFields.dob) {
         const dobDate = new Date(user.dob.date).toLocaleDateString();
         userInfo += `Date of Birth: ${dobDate}\n`;
-        userInfo += `Age: ${user.dob.age}\n`;
-      }
+        if (selectedFields.age) { // Check if age is selected
+          userInfo += `Age: ${user.dob.age}\n`; 
+        }
+      }      
       if (selectedFields.registered) {
         userInfo += `Registered: ${new Date(user.registered.date).toLocaleDateString()}\n`;
-    }
-    if (selectedFields.id) {
+      }
+      if (selectedFields.id) {
         userInfo += `ID: ${user.id.value || 'N/A'}\n`;
-    }
-    // if (selectedFields.nat) {
-    //     userInfo += `Nationality: ${user.nat}\n`;
-    // }    
+      }
+      // Uncomment to include nationality
+      // if (selectedFields.nat) {
+      //     userInfo += `Nationality: ${user.nat}\n`;
+      // }    
 
       // Create a text node for user information
       const textNode = figma.createText();
