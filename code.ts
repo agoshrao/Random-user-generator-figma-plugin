@@ -1,4 +1,5 @@
-figma.showUI(__html__, { width: 300, height: 700 });
+// designed by @gosh
+figma.showUI(__html__, { width: 300, height: 750 });
 
 figma.ui.onmessage = async (msg) => {
   if (msg.type === 'generateUser') {
