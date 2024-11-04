@@ -74,10 +74,6 @@ figma.ui.onmessage = async (msg) => {
       if (selectedFields.id) {
         userInfo += `ID: ${user.id.value || 'N/A'}\n`;
       }
-      // Uncomment to include nationality
-      // if (selectedFields.nat) {
-      //     userInfo += `Nationality: ${user.nat}\n`;
-      // }    
 
       // Create a text node for user information
       const textNode = figma.createText();
