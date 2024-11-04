@@ -1,16 +1,12 @@
-// designed by @gosh
+// Designed by @gosh
 figma.showUI(__html__, { width: 300, height: 750 });
 
 figma.ui.onmessage = async (msg) => {
   if (msg.type === 'generateUser') {
-    // Randomly select gender if 'random' is chosen
-    let gender = msg.gender;
-    if (gender === 'random') {
-      gender = Math.random() < 0.5 ? 'male' : 'female';
-    }
-
-    const nationality = msg.nationality ? `&nat=${msg.nationality}` : '';
-    const userInfoUrl = `https://randomuser.me/api/?results=1&gender=${gender}${nationality}`;
+    // Construct the user info URL based on gender and nationality
+    const genderParam = msg.gender !== 'random' ? `&gender=${msg.gender}` : '';
+    const nationalityParam = msg.nationality ? `&nat=${msg.nationality}` : '';
+    const userInfoUrl = `https://randomuser.me/api/?results=1${genderParam}${nationalityParam}`;
 
     try {
       // Fetch user info from Random User API
@@ -24,7 +20,7 @@ figma.ui.onmessage = async (msg) => {
 
       let imageRect;
       if (msg.includePicture) {
-        const imageUrl = `https://random-user-generator-figma-plugin.onrender.com/random-image?gender=${gender}`;
+        const imageUrl = `https://random-user-generator-figma-plugin.onrender.com/random-image?gender=${user.gender}`;
         const imageResponse = await fetch(imageUrl);
         const imageBytes = await imageResponse.arrayBuffer();
         const image = figma.createImage(new Uint8Array(imageBytes));
@@ -47,7 +43,7 @@ figma.ui.onmessage = async (msg) => {
       }
       if (selectedFields.location) {
         const street = `${user.location.street.number} ${user.location.street.name}`;
-        userInfo += `Location: ${street}, ${user.location.city}, Postcode: ${user.location.postcode}\n`;
+        userInfo += `Address: ${street}, ${user.location.city}, ${user.location.state}\nPostcode: ${user.location.postcode}\n`;
       }
       if (selectedFields.country) {
         userInfo += `Country: ${user.location.country}\n`;
@@ -73,6 +69,9 @@ figma.ui.onmessage = async (msg) => {
       }
       if (selectedFields.id) {
         userInfo += `ID: ${user.id.value || 'N/A'}\n`;
+      }
+      if (selectedFields.country) {
+        userInfo += `Country: ${user.location.country}\n`;
       }
 
       // Create a text node for user information
