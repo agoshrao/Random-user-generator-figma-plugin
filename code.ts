@@ -16,7 +16,7 @@ figma.ui.onmessage = async (msg) => {
       const selectedFields = msg.selectedFields;
 
       // Load font for text nodes
-      await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+      await figma.loadFontAsync({ family: "Roboto", style: "Regular" });
 
       let imageRect;
       if (msg.includePicture) {
